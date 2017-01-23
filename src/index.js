@@ -28,5 +28,5 @@ mongodb.MongoClient.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_P
     res.sendFile(path.join(__dirname, './index.html'));
   })
 
-  app.listen(8080, () => console.log('Running on localhost:2370'));
+  app.listen(2370, () => console.log('Running on localhost:2370'));
 });
