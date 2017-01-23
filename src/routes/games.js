@@ -1,5 +1,6 @@
 import express from 'express';
 import mongodb from 'mongodb';
+import authenticate from '../middlewares/authenticate';
 
 let router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
+router.post('/', authenticate, (req, res) => {
   const db = req.app.get('db');
 
   db.collection('games').insertOne(req.body.game, (err, r) => {
@@ -22,7 +23,7 @@ router.post('/', (req, res) => {
   });
 });
 
-router.put('/:_id', (req, res) => {
+router.put('/:_id', authenticate, (req, res) => {
   const db = req.app.get('db');
 
   db.collection('games').findOneAndUpdate(
@@ -36,7 +37,7 @@ router.put('/:_id', (req, res) => {
     });
 });
 
-router.delete('/:_id', (req, res) => {
+router.delete('/:_id', authenticate, (req, res) => {
   const db = req.app.get('db');
 
   db.collection('games').deleteOne(
