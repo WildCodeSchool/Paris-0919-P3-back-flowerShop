@@ -1,5 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 let router = express.Router();
 
@@ -12,7 +13,8 @@ router.post('/', (req, res) => {
 
     if (doc) {
       if (bcrypt.compareSync(password, doc.password)) {
-        res.json({ user: { email: doc.email }});
+        const token = jwt.sign({ user: { _id: doc._id, email: doc.email }}, process.env.JWT_SECRET);
+        res.json({ token });
       } else {
         res.status(401).json({ errors: { global: "Invalid credentials "}});        
       }
