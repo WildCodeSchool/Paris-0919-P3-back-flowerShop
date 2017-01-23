@@ -15,9 +15,11 @@ app.use(bodyParser.json());
 // routes
 import games from './routes/games';
 import users from './routes/users';
+import auth from './routes/auth';
 
 app.use('/api/games', games);
 app.use('/api/users', users);
+app.use('/api/auth', auth);
 
 mongodb.MongoClient.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, (err, db) => {
   app.set('db', db);
