@@ -2,8 +2,7 @@ import jwt from 'jsonwebtoken';
 import mongodb from 'mongodb';
 
 export default (req, res, next) => {
-  const db = req.app.get('db');
-  const authorizationHeader = req.headers['authorization'];
+  const authorizationHeader = req.headers.authorization;
   let token;
 
   if (authorizationHeader) {
@@ -21,7 +20,7 @@ export default (req, res, next) => {
     });
   } else {
     res.status(403).json({
-      error: 'No token provided'
+      error: 'No token provided',
     });
   }
-}
+};

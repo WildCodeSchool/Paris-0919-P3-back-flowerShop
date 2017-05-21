@@ -2,12 +2,15 @@ import express from 'express';
 import mongodb from 'mongodb';
 import authenticate from '../middlewares/authenticate';
 
-let router = express.Router();
+const router = express.Router();
 
 router.get('/', (req, res) => {
   const db = req.app.get('db');
   db.collection('games').find({}).toArray((err, games) => {
-    if (err) { res.status(500).json({ errors: { global: err }}); return; }
+    if (err) {
+      res.status(500).json({ errors: { global: err } });
+      return;
+    }
 
     res.json({ games });
   });
@@ -17,7 +20,10 @@ router.post('/', authenticate, (req, res) => {
   const db = req.app.get('db');
 
   db.collection('games').insertOne(req.body.game, (err, r) => {
-    if (err) { res.status(500).json({ errors: { global: err }}); return; }
+    if (err) {
+      res.status(500).json({ errors: { global: err } });
+      return;
+    }
 
     res.json({ game: r.ops[0] });
   });
@@ -26,27 +32,34 @@ router.post('/', authenticate, (req, res) => {
 router.put('/:_id', authenticate, (req, res) => {
   const db = req.app.get('db');
 
-  db.collection('games').findOneAndUpdate(
-    { _id: new mongodb.ObjectId(req.params._id) },
-    { $set: req.body.game },
-    { returnOriginal: false },
-    (err, r) => {
-      if (err) { res.status(500).json({ errors: { global: err }}); return; }
+  db
+    .collection('games')
+    .findOneAndUpdate(
+      { _id: new mongodb.ObjectId(req.params._id) },
+      { $set: req.body.game },
+      { returnOriginal: false },
+      (err, r) => {
+        if (err) {
+          res.status(500).json({ errors: { global: err } });
+          return;
+        }
 
-      res.json({ game: r.value });
-    });
+        res.json({ game: r.value });
+      },
+    );
 });
 
 router.delete('/:_id', authenticate, (req, res) => {
   const db = req.app.get('db');
 
-  db.collection('games').deleteOne(
-    { _id: new mongodb.ObjectId(req.params._id) },
-    (err, r) => {
-      if (err) { res.status(500).json({ errors: { global: err }}); return; }
+  db.collection('games').deleteOne({ _id: new mongodb.ObjectId(req.params._id) }, (err) => {
+    if (err) {
+      res.status(500).json({ errors: { global: err } });
+      return;
+    }
 
-      res.json({});
-    });
+    res.json({});
+  });
 });
 
 export default router;

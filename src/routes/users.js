@@ -2,23 +2,25 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import isEmail from 'validator/lib/isEmail';
 
-let router = express.Router();
+const router = express.Router();
 
 function validate(user, db, cb) {
-  let errors = {};
+  const errors = {};
 
   db.collection('users').findOne({ email: user.email }, (err, doc) => {
-    if (err) return { isValid: false, errors: { global: 'Database error ' + err }};
+    if (err) return { isValid: false, errors: { global: `Database error ${err}` } };
 
-    if (doc) errors.email = "User with such email already exists";
+    if (doc) errors.email = 'User with such email already exists';
     if (!user.email) errors.email = "Can't be blank";
-    if (!isEmail(user.email)) errors.email = "Invalid email address";
+    if (!isEmail(user.email)) errors.email = 'Invalid email address';
     if (!user.password) errors.password = "Can't be blank";
-    if (user.password !== user.passwordConfirmation) errors.passwordConfirmation = "Passwords must match";
+    if (user.password !== user.passwordConfirmation) {
+      errors.passwordConfirmation = 'Passwords must match';
+    }
 
-    cb({
+    return cb({
       isValid: Object.keys(errors).length === 0,
-      errors
+      errors,
     });
   });
 }
@@ -26,22 +28,24 @@ function validate(user, db, cb) {
 router.post('/', (req, res) => {
   const user = {
     email: req.body.user.email,
-    password: bcrypt.hashSync(req.body.user.password, 10)
+    password: bcrypt.hashSync(req.body.user.password, 10),
   };
   const db = req.app.get('db');
 
-  validate(req.body.user, db, ({ isValid, errors} ) => {
+  validate(req.body.user, db, ({ isValid, errors }) => {
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
-      db.collection('users').insertOne(user, (err, r) => {
-        if (err) { res.status(500).json({ errors: { global: err }}); return; }
-        
+      db.collection('users').insertOne(user, (err) => {
+        if (err) {
+          res.status(500).json({ errors: { global: err } });
+          return;
+        }
+
         res.json({});
       });
     }
   });
-
 });
 
 export default router;
