@@ -1,0 +1,4 @@
+DB_NAME=shop
+DB_HOST=localhost
+DB_PORT=27017
+JWT_SECRET=ZiGBnJAYfr9zCWhtuLJnKWHe
