@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import mongodb from 'mongodb';
 import unsafegames from './routes/unsafegames';
 import games from './routes/games';
+import authgames from './routes/authgames';
 import users from './routes/users';
 import auth from './routes/auth';
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 // routes
 app.use('/api/unsafegames', unsafegames);
 app.use('/api/games', games);
+app.use('/api/authgames', authgames);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 

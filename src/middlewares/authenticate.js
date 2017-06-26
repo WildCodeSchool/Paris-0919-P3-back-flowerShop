@@ -12,15 +12,15 @@ export default (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
-        res.status(401).json({ error: 'Failed to authenticate' });
+        res.status(401).json({ errors: { global: 'You must be authenticated to do that' } });
       } else {
-        req.userId = new mongodb.ObjectId(decoded._id);
+        req.userId = new mongodb.ObjectId(decoded.user._id);
         next();
       }
     });
   } else {
     res.status(403).json({
-      error: 'No token provided',
+      errors: { global: 'You must be authenticated to do that' },
     });
   }
 };

@@ -1,6 +1,7 @@
 import express from 'express';
 import mongodb from 'mongodb';
 import authenticate from '../middlewares/authenticate';
+import adminOnly from '../middlewares/adminOnly';
 
 const router = express.Router();
 
@@ -41,7 +42,7 @@ router.get('/:_id', (req, res) => {
   });
 });
 
-router.post('/', authenticate, (req, res) => {
+router.post('/', authenticate, adminOnly, (req, res) => {
   const db = req.app.get('db');
   const errors = validate(req.body.game);
 
@@ -59,7 +60,7 @@ router.post('/', authenticate, (req, res) => {
   }
 });
 
-router.put('/:_id', authenticate, (req, res) => {
+router.put('/:_id', authenticate, adminOnly, (req, res) => {
   const db = req.app.get('db');
   const { _id, ...gameData } = req.body.game;
   const errors = validate(gameData);
@@ -85,7 +86,7 @@ router.put('/:_id', authenticate, (req, res) => {
   }
 });
 
-router.delete('/:_id', authenticate, (req, res) => {
+router.delete('/:_id', authenticate, adminOnly, (req, res) => {
   const db = req.app.get('db');
 
   db.collection('games').deleteOne({ _id: new mongodb.ObjectId(req.params._id) }, (err) => {

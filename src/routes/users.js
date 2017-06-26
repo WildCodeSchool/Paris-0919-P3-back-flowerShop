@@ -29,6 +29,7 @@ router.post('/', (req, res) => {
   const user = {
     email: req.body.user.email,
     password: bcrypt.hashSync(req.body.user.password, 10),
+    role: 'user',
   };
   const db = req.app.get('db');
 
