@@ -20,7 +20,7 @@ function validate(user, db, cb) {
 
     return cb({
       isValid: Object.keys(errors).length === 0,
-      errors,
+      errors
     });
   });
 }
@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
   const user = {
     email: req.body.user.email,
     password: bcrypt.hashSync(req.body.user.password, 10),
-    role: 'user',
+    role: 'user'
   };
   const db = req.app.get('db');
 
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
-      db.collection('users').insertOne(user, (err) => {
+      db.collection('users').insertOne(user, err => {
         if (err) {
           res.status(500).json({ errors: { global: err } });
           return;

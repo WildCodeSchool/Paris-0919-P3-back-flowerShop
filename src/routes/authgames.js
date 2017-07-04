@@ -5,7 +5,7 @@ import adminOnly from '../middlewares/adminOnly';
 
 const router = express.Router();
 
-const validate = (data) => {
+const validate = data => {
   const errors = {};
 
   if (!data.name) errors.name = "This field can't be blank";
@@ -79,7 +79,7 @@ router.put('/:_id', authenticate, adminOnly, (req, res) => {
           }
 
           res.json({ game: r.value });
-        },
+        }
       );
   } else {
     res.status(400).json({ errors });
@@ -89,7 +89,7 @@ router.put('/:_id', authenticate, adminOnly, (req, res) => {
 router.delete('/:_id', authenticate, adminOnly, (req, res) => {
   const db = req.app.get('db');
 
-  db.collection('games').deleteOne({ _id: new mongodb.ObjectId(req.params._id) }, (err) => {
+  db.collection('games').deleteOne({ _id: new mongodb.ObjectId(req.params._id) }, err => {
     if (err) {
       res.status(500).json({ errors: { global: err } });
       return;

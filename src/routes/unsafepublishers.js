@@ -7,68 +7,64 @@ const validate = data => {
   const errors = {};
 
   if (!data.name) errors.name = "This field can't be blank";
-  if (!data.players) errors.players = "This field can't be blank";
-  if (!data.publisher) errors.publisher = 'You must choose publisher';
-  if (!data.thumbnail) errors.thumbnail = "This field can't be blank";
-  if (data.price <= 0) errors.price = "Too cheap, don't you think?";
-  if (data.duration <= 0) errors.duration = "Too short, isn't it?";
+  if (!data.website) errors.players = "This field can't be blank";
 
   return errors;
 };
 
 router.get('/', (req, res) => {
   const db = req.app.get('db');
-  db.collection('games').find({}).toArray((err, games) => {
+  db.collection('publishers').find({}).toArray((err, publishers) => {
     if (err) {
       res.status(500).json({ errors: { global: err } });
       return;
     }
 
-    res.json({ games });
+    res.json({ publishers });
   });
 });
 
-router.get('/:_id', (req, res) => {
+router.get('/:id', (req, res) => {
   const db = req.app.get('db');
-  db.collection('games').findOne({ _id: new mongodb.ObjectId(req.params._id) }, (err, game) => {
+  db.collection('publishers').findOne({ _id: new mongodb.ObjectId(req.params.id) }, (err, publisher) => {
     if (err) {
       res.status(500).json({ errors: { global: err } });
       return;
     }
 
-    res.json({ game });
+    res.json({ publisher });
   });
 });
 
 router.post('/', (req, res) => {
   const db = req.app.get('db');
-  const errors = validate(req.body.game);
+  const errors = validate(req.body.publisher);
 
   if (Object.keys(errors).length === 0) {
-    db.collection('games').insertOne(req.body.game, (err, r) => {
+    db.collection('publishers').insertOne(req.body.publisher, (err, r) => {
       if (err) {
         res.status(500).json({ errors: { global: err } });
         return;
       }
 
-      res.json({ game: r.ops[0] });
+      res.json({ publisher: r.ops[0] });
     });
   } else {
     res.status(400).json({ errors });
   }
 });
 
-router.put('/:_id', (req, res) => {
+router.put('/:id', (req, res) => {
   const db = req.app.get('db');
-  const { _id, ...gameData } = req.body.game;
-  const errors = validate(gameData);
+  const { _id, ...publisherData } = req.body.publisher;
+  const errors = validate(publisherData);
 
   if (Object.keys(errors).length === 0) {
     db
-      .collection('games')
+      .collection('publishers')
       .findOneAndUpdate(
-        { _id: new mongodb.ObjectId(req.params._id) },
-        { $set: gameData },
+        { _id: new mongodb.ObjectId(req.params.id) },
+        { $set: publisherData },
         { returnOriginal: false },
         (err, r) => {
           if (err) {
@@ -76,7 +72,7 @@ router.put('/:_id', (req, res) => {
             return;
           }
 
-          res.json({ game: r.value });
+          res.json({ publisher: r.value });
         }
       );
   } else {
@@ -84,10 +80,10 @@ router.put('/:_id', (req, res) => {
   }
 });
 
-router.delete('/:_id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const db = req.app.get('db');
 
-  db.collection('games').deleteOne({ _id: new mongodb.ObjectId(req.params._id) }, err => {
+  db.collection('publishers').deleteOne({ _id: new mongodb.ObjectId(req.params.id) }, err => {
     if (err) {
       res.status(500).json({ errors: { global: err } });
       return;

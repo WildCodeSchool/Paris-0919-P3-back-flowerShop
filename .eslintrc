@@ -1,12 +1,24 @@
 {
-  "extends": "airbnb",
-  "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-    "react/forbid-prop-types": [1, { "forbid": [ "any" ] }],
-    "no-console": "off"
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2016,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "env": {
+    "es6": true,
+    "browser": true,
     "node": true
+  },
+  "rules": {
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": ["_id"]
+      }
+    ]
   }
 }

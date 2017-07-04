@@ -4,13 +4,14 @@ import path from 'path';
 import dotenv from 'dotenv';
 import mongodb from 'mongodb';
 import unsafegames from './routes/unsafegames';
+import unsafepublishers from './routes/unsafepublishers';
 import games from './routes/games';
 import authgames from './routes/authgames';
 import users from './routes/users';
 import auth from './routes/auth';
 
 dotenv.config({
-  path: path.join(__dirname, '.env'),
+  path: path.join(__dirname, '.env')
 });
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 // routes
 app.use('/api/unsafegames', unsafegames);
+app.use('/api/unsafepublishers', unsafepublishers);
 app.use('/api/games', games);
 app.use('/api/authgames', authgames);
 app.use('/api/users', users);
@@ -34,5 +36,5 @@ mongodb.MongoClient.connect(
     });
 
     app.listen(2370, () => console.log('Running on localhost:2370'));
-  },
+  }
 );
