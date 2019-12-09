@@ -4,8 +4,12 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const connectionMySql = require("./db");
+
 // autorise tous à faire des requêtes
 app.use(cors());
+
+app.use(connectionMySql);
 
 // Permet d'utiliser req.body
 app.use(bodyParser.urlencoded({ extended: false }));
