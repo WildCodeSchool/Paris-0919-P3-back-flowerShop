@@ -1,7 +1,6 @@
 const express = require("express");
 
-const mysql = require("mysql2");
-require("dotenv").config({ path: "./config/dev.env" });
+const produitsRoutes = require("./routes/produits");
 
 const app = express();
 const bodyParser = require("body-parser");
@@ -10,25 +9,12 @@ const cors = require("cors");
 // autorise tous à faire des requêtes
 app.use(cors());
 
-// Connect to db
-
-const connectionMySql = mysql.createConnection({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD_MYSQL,
-  database: process.env.DB
-});
-
-connectionMySql.connect(err => {
-  if (err) {
-    return console.error(err);
-  }
-  console.log("Successfully connected to db");
-});
-
 // Permet d'utiliser req.body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Routes
+app.use("/produits", produitsRoutes);
 
 // Si ne trouve pas de routes alors erreurs => gestion de l'erreur
 app.use((req, res, next) => {
