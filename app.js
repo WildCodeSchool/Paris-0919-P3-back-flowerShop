@@ -1,6 +1,6 @@
 const express = require("express");
 
-const produitsRoutes = require("./routes/produits");
+const productsRoutes = require("./routes/products");
 
 const app = express();
 const bodyParser = require("body-parser");
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-app.use("/produits", produitsRoutes);
+app.use("/products", productsRoutes);
 
 // Si ne trouve pas de routes alors erreurs => gestion de l'erreur
 app.use((req, res, next) => {
