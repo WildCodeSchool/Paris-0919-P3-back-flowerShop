@@ -70,7 +70,8 @@ exports.products_update_product = (req, res) => {
 
   if (isAuthorized) {
     getConnection.query(queryString, [productId], (error, result) => {
-      if (error) {
+      const productNotExists = result.affectedRows === 0;
+      if (error || productNotExists) {
         return res.status(500).json({
           message: "Failed to update product",
           queryString,
