@@ -1,4 +1,5 @@
 const getConnection = require("../db");
+const { setKeysValuesToString } = require("../utils/");
 
 exports.products_get_all = (req, res) => {
   const queryString = "SELECT * FROM Produit";
@@ -63,10 +64,9 @@ exports.products_update_product = (req, res) => {
   const authorizedKeys = ["name", "price", "isActive", "description"];
   const isAuthorized = bodyKeys.every(key => authorizedKeys.includes(key));
 
-  const changesString = bodyKeys
-    .map((key, index) => `${key}="${bodyValues[index]}"`)
-    .join(",");
-  const queryString = `UPDATE Produit SET ${changesString} WHERE id=(?)`;
+  const setValues = setKeysValuesToString(bodyKeys, bodyValues);
+
+  const queryString = `UPDATE Produit SET ${setValues} WHERE id=(?)`;
 
   if (isAuthorized) {
     getConnection.query(queryString, [productId], (error, result) => {

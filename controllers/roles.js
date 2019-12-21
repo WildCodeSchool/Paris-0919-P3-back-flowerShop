@@ -1,4 +1,5 @@
 const getConnection = require("../db");
+const { setKeysValuesToString } = require("../utils/");
 
 exports.roles_get_all = (req, res) => {
   const queryString = "SELECT * FROM role";
@@ -53,10 +54,9 @@ exports.roles_update_role = (req, res) => {
   const authorizedKeys = ["name"];
   const isAuthorized = bodyKeys.every(key => authorizedKeys.includes(key));
 
-  const changesString = bodyKeys
-    .map((key, index) => `${key}="${bodyValues[index]}"`)
-    .join(",");
-  const queryString = `UPDATE role SET ${changesString} WHERE id=(?)`;
+  const setValues = setKeysValuesToString(bodyKeys, bodyValues);
+
+  const queryString = `UPDATE role SET ${setValues} WHERE id=(?)`;
   if (isAuthorized) {
     getConnection.query(queryString, [roleId], (error, result) => {
       if (error) {
