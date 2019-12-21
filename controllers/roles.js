@@ -1,31 +1,13 @@
 const getConnection = require("../db");
-const { setKeysValuesToString } = require("../utils/");
+const { setKeysValuesToString } = require("../utils/helpers");
+const { tableGetAll, tableGetOne } = require("../utils/controllers");
 
 exports.roles_get_all = (req, res) => {
-  const queryString = "SELECT * FROM role";
-  getConnection.query(queryString, (error, results) => {
-    if (error) {
-      return res.status(500).json({
-        message: "Failed to get roles",
-        error
-      });
-    }
-    res.status(200).json(results);
-  });
+  return tableGetAll("role", res);
 };
 
 exports.roles_get_role = (req, res) => {
-  const { roleId } = req.params;
-  const queryString = "SELECT * FROM role WHERE id= (?)";
-  getConnection.query(queryString, [roleId], (error, results) => {
-    if (error) {
-      return res.status(500).json({
-        message: `Role with id=${roleId} does not exists`,
-        error
-      });
-    }
-    res.status(200).json(results);
-  });
+  return tableGetOne("role", req, res);
 };
 
 exports.roles_add_role = (req, res) => {

@@ -1,31 +1,13 @@
 const getConnection = require("../db");
-const { setKeysValuesToString } = require("../utils/");
+const { setKeysValuesToString } = require("../utils/helpers");
+const { tableGetAll, tableGetOne } = require("../utils/controllers");
 
 exports.products_get_all = (req, res) => {
-  const queryString = "SELECT * FROM Produit";
-  getConnection.query(queryString, (error, results) => {
-    if (error) {
-      return res.status(500).json({
-        message: "Failed to get products",
-        error
-      });
-    }
-    res.status(200).json(results);
-  });
+  return tableGetAll("Produit", res);
 };
 
 exports.products_get_product = (req, res) => {
-  const { productId } = req.params;
-  const queryString = "SELECT * FROM Produit WHERE id= (?)";
-  getConnection.query(queryString, [productId], (error, result) => {
-    if (error) {
-      return res.status(500).json({
-        message: `Product with id=${productId} does not exists`,
-        error
-      });
-    }
-    res.status(200).json(result);
-  });
+  return tableGetOne("Produit", req, res);
 };
 
 exports.products_create_product = (req, res) => {
