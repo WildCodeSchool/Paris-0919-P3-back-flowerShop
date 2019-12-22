@@ -1,32 +1,17 @@
 const getConnection = require("../db");
 const { setKeysValuesToString } = require("../utils/helpers");
-const { tableGetAll, tableGetOne } = require("../utils/controllers");
+const Controllers = require("../utils/controllers");
 
 exports.roles_get_all = (req, res) => {
-  return tableGetAll("role", res);
+  return Controllers.tableGetAll("role", res);
 };
 
 exports.roles_get_role = (req, res) => {
-  return tableGetOne("role", req, res);
+  return Controllers.tableGetOne("role", req, res);
 };
 
 exports.roles_add_role = (req, res) => {
-  const { name } = req.body;
-  const queryString = "INSERT INTO role (name) values (?)";
-  getConnection.query(queryString, [name], (error, results) => {
-    if (error) {
-      return res.status(500).json({
-        message: `Failed to add role`,
-        error
-      });
-    }
-    res.status(201).json({
-      id: results.insertId,
-      role: {
-        name
-      }
-    });
-  });
+  return Controllers.tableCreateOne("role", req, res);
 };
 
 exports.roles_update_role = (req, res) => {
