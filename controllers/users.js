@@ -5,29 +5,12 @@ const Controller = require("../utils/controllers");
 exports.users_get_all_user = (req, res) => {
   const queryString =
     "SELECT u.name AS username, u.email, u.status, u.telephone, u.token, r.name AS roleName FROM User AS u INNER JOIN role AS r ON u.role_id = r.id";
-  getConnection.query(queryString, (error, results) => {
-    if (error) {
-      return res.status(500).json({
-        message: `Failed to get user`,
-        error
-      });
-    }
-    res.status(200).json(results);
-  });
+  return Controller.tableGetAll(queryString, res);
 };
 
 exports.users_get_user = (req, res) => {
-  const { id } = req.params;
   const queryString = `SELECT u.name AS username, u.email, u.status, u.telephone, u.token, r.name AS roleName FROM User AS u INNER JOIN role AS r ON u.role_id = r.id WHERE u.id= (?)`;
-  getConnection.query(queryString, [id], (error, result) => {
-    if (error) {
-      return res.status(500).json({
-        message: `Item with id=${id} does not exists`,
-        error
-      });
-    }
-    res.status(200).json(result);
-  });
+  return Controller.tableGetOne(queryString, req, res);
 };
 
 exports.users_add_user = (req, res) => {
