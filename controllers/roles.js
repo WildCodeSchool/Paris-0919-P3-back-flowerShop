@@ -1,11 +1,13 @@
 const Controllers = require("../utils/controllers");
 
 exports.roles_get_all = (req, res) => {
-  return Controllers.tableGetAll("role", res);
+  const queryString = "SELECT * FROM role";
+  return Controllers.tableGetAll(queryString, res);
 };
 
 exports.roles_get_role = (req, res) => {
-  return Controllers.tableGetOne("role", req, res);
+  const queryString = "SELECT * FROM role WHERE id=(?)";
+  return Controllers.tableGetOne(queryString, req, res);
 };
 
 exports.roles_add_role = (req, res) => {

@@ -1,12 +1,11 @@
 const getConnection = require("../db");
 const { setKeysValuesToString } = require("../utils/helpers");
 
-const tableGetAll = (table, res) => {
-  const queryString = `SELECT * FROM ${table}`;
+const tableGetAll = (queryString, res) => {
   getConnection.query(queryString, (error, results) => {
     if (error) {
       return res.status(500).json({
-        message: `Failed to get ${table}`,
+        message: `Failed to get items`,
         error
       });
     }
@@ -14,9 +13,8 @@ const tableGetAll = (table, res) => {
   });
 };
 
-const tableGetOne = (table, req, res) => {
+const tableGetOne = (queryString, req, res) => {
   const { id } = req.params;
-  const queryString = `SELECT * FROM ${table} WHERE id= (?)`;
   getConnection.query(queryString, [id], (error, result) => {
     if (error) {
       return res.status(500).json({
