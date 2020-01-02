@@ -8,6 +8,8 @@ const productsRoutes = require("./routes/products");
 const rolesRoutes = require("./routes/roles");
 const usersRoutes = require("./routes/users");
 const sizesRoutes = require("./routes/sizes");
+const picturesRoutes = require("./routes/pictures");
+const articlesRoutes = require("./routes/articles");
 
 // autorise tous à faire des requêtes
 app.use(cors());
@@ -21,6 +23,9 @@ app.use("/products", productsRoutes);
 app.use("/roles", rolesRoutes);
 app.use("/users", usersRoutes);
 app.use("/sizes", sizesRoutes);
+app.use("/pictures", picturesRoutes);
+app.use("/uploads", express.static("uploads"));
+app.use("/articles", articlesRoutes);
 
 // Si ne trouve pas de routes alors erreurs => gestion de l'erreur
 app.use((req, res, next) => {

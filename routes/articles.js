@@ -1,17 +1,16 @@
 const express = require("express");
 
 const router = express.Router();
+const ArticlesController = require("../controllers/articles");
 
-const connection = require("../db");
+router.get("/", ArticlesController.articles_get_all);
 
-router.get("/", (req, res) => {
-  connection.query();
-});
+router.get("/:id", ArticlesController.articles_get_article);
 
-router.get("/", (req, res) => {});
+router.post("/", ArticlesController.articles_add_article);
 
-router.post("/", (req, res) => {});
+router.put("/:id", ArticlesController.articles_update_article);
 
-router.post("", (req, res) => {});
+router.delete("/:id", ArticlesController.articles_delete_article);
 
 module.exports = router;
