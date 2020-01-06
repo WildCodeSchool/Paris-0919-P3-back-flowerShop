@@ -1,15 +1,21 @@
-const getConnection = require("../db");
-
 const Controller = require("../utils/controllers");
 
 exports.users_get_all_user = (req, res) => {
-  const queryString =
-    "SELECT u.name AS username, u.email, u.status, u.telephone, u.token, r.name AS roleName FROM User AS u INNER JOIN role AS r ON u.role_id = r.id";
+  const queryString = ` 
+    SELECT u.name AS username, u.email, u.status, u.telephone, u.token, r.name AS roleName 
+    FROM User AS u 
+    INNER JOIN role AS r 
+    ON u.role_id = r.id`;
   return Controller.tableGetAll(queryString, res);
 };
 
 exports.users_get_user = (req, res) => {
-  const queryString = `SELECT u.name AS username, u.email, u.status, u.telephone, u.token, r.name AS roleName FROM User AS u INNER JOIN role AS r ON u.role_id = r.id WHERE u.id= (?)`;
+  const queryString = `
+    SELECT u.name AS username, u.email, u.status, u.telephone, u.token, r.name AS roleName 
+    FROM User AS u 
+    INNER JOIN role AS r 
+    ON u.role_id = r.id 
+    WHERE u.id= (?)`;
   return Controller.tableGetOne(queryString, req, res);
 };
 

@@ -9,7 +9,7 @@ const tableGetAll = (queryString, res) => {
         error
       });
     }
-    res.status(200).json(results);
+    return res.status(200).json(results);
   });
 };
 
@@ -22,7 +22,7 @@ const tableGetOne = (queryString, req, res) => {
         error
       });
     }
-    res.status(200).json(result);
+    return res.status(200).json(result);
   });
 };
 
@@ -41,7 +41,7 @@ const tableCreateOne = (table, req, res) => {
         error
       });
     }
-    res.status(201).json({
+    return res.status(201).json({
       id: results.insertId,
       message: "Item successfully added"
     });
@@ -57,8 +57,6 @@ const tableUpdateOne = (table, authorizedKeys, req, res) => {
   const setValues = setKeysValuesToString(bodyKeys, bodyValues);
 
   const queryString = `UPDATE ${table} SET ${setValues} WHERE id=(?)`;
-
-  console.log(queryString);
   if (isAuthorized) {
     getConnection.query(queryString, [id], (error, result) => {
       const itemNotExists = result.affectedRows === 0;
@@ -69,7 +67,7 @@ const tableUpdateOne = (table, authorizedKeys, req, res) => {
           error
         });
       }
-      res.status(200).json({
+      return res.status(200).json({
         message: "Successfully updated item",
         queryString,
         result
@@ -93,7 +91,7 @@ const tableDeleteOne = (table, req, res) => {
         error
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: "Item successfully deleted",
       id
     });
