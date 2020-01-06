@@ -10,6 +10,7 @@ const usersRoutes = require("./routes/users");
 const sizesRoutes = require("./routes/sizes");
 const picturesRoutes = require("./routes/pictures");
 const articlesRoutes = require("./routes/articles");
+const authRoutes = require("./routes/auth/auth");
 
 // autorise tous à faire des requêtes
 app.use(cors());
@@ -26,6 +27,7 @@ app.use("/sizes", sizesRoutes);
 app.use("/pictures", picturesRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/articles", articlesRoutes);
+app.use("/auth", authRoutes);
 
 // Si ne trouve pas de routes alors erreurs => gestion de l'erreur
 app.use((req, res, next) => {
