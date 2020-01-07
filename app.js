@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const authRoutes = require("./routes/auth/auth");
 const productsRoutes = require("./routes/products");
 const rolesRoutes = require("./routes/roles");
 const usersRoutes = require("./routes/users");
@@ -26,6 +27,7 @@ app.use("/sizes", sizesRoutes);
 app.use("/pictures", picturesRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/articles", articlesRoutes);
+app.use("/auth", authRoutes);
 
 // Si ne trouve pas de routes alors erreurs => gestion de l'erreur
 app.use((req, res, next) => {
