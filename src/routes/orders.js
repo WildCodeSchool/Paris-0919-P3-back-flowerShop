@@ -3,8 +3,20 @@ import mongodb from 'mongodb';
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+  const db = req.app.get('db');
+  db.collection('orders')
+    .find({})
+    .toArray((err, orders) => {
+      if (err) return res.status(500).json({ errors: { global: err } });
+      res.status(200).json({ orders });
+    });
+});
+
 router.post('/', (req, res) => {
+  const nowDate = Date();
   const order = {
+    date: nowDate.toString(),
     user: {
       firstName: req.body.user.firstName,
       lastName: req.body.user.lastName,
