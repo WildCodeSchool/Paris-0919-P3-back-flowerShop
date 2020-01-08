@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const passport = require("passport");
 
 const productsRoutes = require("./routes/products");
 const rolesRoutes = require("./routes/roles");
@@ -12,12 +13,17 @@ const picturesRoutes = require("./routes/pictures");
 const articlesRoutes = require("./routes/articles");
 const authRoutes = require("./routes/auth/auth");
 
+require("./routes/auth/passport-setup");
+
 // autorise tous à faire des requêtes
 app.use(cors());
 
 // Permet d'utiliser req.body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/products", productsRoutes);
