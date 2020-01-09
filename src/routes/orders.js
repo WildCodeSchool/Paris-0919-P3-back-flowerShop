@@ -29,9 +29,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const date = Date().toString();
   const order = {
-    date,
     user: {
       firstName: req.body.user.firstName,
       lastName: req.body.user.lastName,
@@ -68,7 +66,6 @@ router.post('/', (req, res) => {
         </ul>
         <h2>Information sur la commande:</h2>
         <ul>
-          <li>Date de la commande: ${date}</li>
           <li>Nom de la rue: ${req.body.address.street}</li>
           <li>Code Postal: ${req.body.address.postalCode}</li>
           <li>Ville: ${req.body.address.city}</li>
