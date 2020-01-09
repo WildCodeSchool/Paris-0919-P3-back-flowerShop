@@ -19,7 +19,14 @@ const transporter = nodemailer.createTransport(
 );
 
 router.post('/', (req, res) => {
-  const { firstName, lastName, email, phone, city, mailBody } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    city,
+    textContent
+  } = req.body.values;
   transporter.sendMail({
     to: email,
     from: 'eclosion@email.eclosion.com',
@@ -34,7 +41,7 @@ router.post('/', (req, res) => {
         <li>Ville: ${city}</li>
       </ul>
       <h2>Contenu du mail</h2>
-      <p>${mailBody}</p>
+      <p>${textContent}</p>
       `
   });
   res.status(200).json({
