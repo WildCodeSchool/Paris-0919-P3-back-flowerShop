@@ -32,12 +32,18 @@ app.use('/api/auth', auth);
 app.use('/api/orders', orders);
 app.use('/api/email', email);
 
-mongodb.MongoClient.connect(`${process.env.DB_CONNECTION}`, (err, db) => {
-  app.set('db', db);
+mongodb.MongoClient.connect(
+  process.env.DB_CONNECTION,
+  {
+    useUnifiedTopology: true
+  },
+  (err, client) => {
+    const db = client.db('db');
+    app.set('db', db);
+    app.get('/*', (req, res) => {
+      res.sendFile(path.join(__dirname, './index.html'));
+    });
 
-  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, './index.html'));
-  });
-
-  app.listen(2370, () => console.log('Running on localhost:2370'));
-});
+    app.listen(2370, () => console.log('Running on localhost:2370'));
+  }
+);
