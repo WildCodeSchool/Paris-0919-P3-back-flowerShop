@@ -1,2 +1,2 @@
 JWT_SECRET=ZiGBnJAYfr9zCWhtuLJnKWHe
-DB_CONNECTION=mongodb://localhost:27017/shop
+DB_CONNECTION=mongodb+srv://claire:testtesty@wcscluster-y4x6m.mongodb.net/test?retryWrites=true&w=majority
