@@ -1,0 +1,2 @@
+JWT_SECRET=ZiGBnJAYfr9zCWhtuLJnKWHe
+DB_CONNECTION=mongodb://localhost:27017/shop
