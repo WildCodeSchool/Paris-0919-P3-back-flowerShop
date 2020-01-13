@@ -17,6 +17,8 @@
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
     "mongodb": "^3.4.1",
+    "nodemailer": "^6.4.2",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "validator": "^6.2.1"
   },
   "devDependencies": {

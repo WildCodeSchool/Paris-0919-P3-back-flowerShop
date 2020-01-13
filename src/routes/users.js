@@ -8,7 +8,8 @@ function validate(user, db, cb) {
   const errors = {};
 
   db.collection('users').findOne({ email: user.email }, (err, doc) => {
-    if (err) return { isValid: false, errors: { global: `Database error ${err}` } };
+    if (err)
+      return { isValid: false, errors: { global: `Database error ${err}` } };
 
     if (doc) errors.email = 'User with such email already exists';
     if (!user.email) errors.email = "Can't be blank";
