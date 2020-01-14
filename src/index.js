@@ -12,6 +12,7 @@ import users from './routes/users';
 import auth from './routes/auth';
 import orders from './routes/orders';
 import email from './routes/email';
+import cart from './routes/cart';
 
 dotenv.config({
   path: path.join(__dirname, '.env')
@@ -31,6 +32,7 @@ app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/api/orders', orders);
 app.use('/api/email', email);
+app.use('/api/cart', cart);
 
 mongodb.MongoClient.connect(
   process.env.DB_CONNECTION,
