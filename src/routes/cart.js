@@ -25,7 +25,7 @@ router.post('/:id', async (req, res) => {
     const updatedDocument = {
       $set: {
         ...userProducts,
-        products: [...userProducts.products, req.body.product]
+        products: [...userProducts.products, req.body]
       }
     };
     db.collection('cart').findOneAndUpdate(
@@ -40,7 +40,7 @@ router.post('/:id', async (req, res) => {
       }
     );
   } else {
-    const newDocument = { userId, products: [req.body.product] };
+    const newDocument = { userId, products: [req.body] };
     db.collection('cart').insertOne(newDocument, (err, r) => {
       if (err) {
         res.status(500).json({ errors: { global: err } });
@@ -54,18 +54,20 @@ router.post('/:id', async (req, res) => {
 router.put('/:userId', async (req, res) => {
   const db = req.app.get('db');
   const { userId } = req.params;
-  const currentUserProducts = await db.collection('cart').findOne({});
-  const otherProducts = currentUserProducts.filter(
-    product => product.id !== req.body.product.id
+  const currentUserProducts = await db.collection('cart').findOne({ userId });
+  const otherProducts = currentUserProducts.products.filter(
+    product => product._id !== req.body._id
   );
-  const updatedDocument = [
-    {
-      $set: {
-        ...userProducts,
-        products: [...otherProducts, req.body.product]
-      }
+  const updatedProducts = otherProducts
+    ? [...otherProducts, req.body]
+    : [req.body];
+
+  const updatedDocument = {
+    $set: {
+      ...currentUserProducts,
+      products: updatedProducts
     }
-  ];
+  };
   db.collection('cart').findOneAndUpdate(
     { userId },
     updatedDocument,
