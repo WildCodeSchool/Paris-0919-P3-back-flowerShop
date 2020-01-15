@@ -22,15 +22,12 @@ router.post('/:id', async (req, res) => {
   const db = req.app.get('db');
   const userProducts = await db.collection('cart').findOne({ userId });
   if (userProducts) {
-    console.log('user product', userProducts);
-    console.log('new product', req.body.product);
     const updatedDocument = {
       $set: {
         ...userProducts,
         products: [...userProducts.products, req.body.product]
       }
     };
-    console.log('update', updatedDocument);
     db.collection('cart').findOneAndUpdate(
       { userId },
       updatedDocument,
@@ -54,9 +51,54 @@ router.post('/:id', async (req, res) => {
   }
 });
 
-router.delete('/', (req, res) => {
+router.put('/:userId', async (req, res) => {
   const db = req.app.get('db');
-  db.collection('cart').drop();
+  const { userId } = req.params;
+  const currentUserProducts = await db.collection('cart').findOne({});
+  const otherProducts = currentUserProducts.filter(
+    product => product.id !== req.body.product.id
+  );
+  const updatedDocument = [
+    {
+      $set: {
+        ...userProducts,
+        products: [...otherProducts, req.body.product]
+      }
+    }
+  ];
+  db.collection('cart').findOneAndUpdate(
+    { userId },
+    updatedDocument,
+    (err, r) => {
+      if (err) return res.status(500).json({ errors: { global: err } });
+      res.json(r);
+    }
+  );
+});
+
+router.delete('/:userId/:productId', async (req, res) => {
+  const db = req.app.get('db');
+  const { userId, productId } = req.params;
+  const currentDocument = await db.collection('cart').findOne({ userId });
+  const updatedProducts = currentDocument.products.filter(
+    product => product._id !== productId
+  );
+  const updatedDocument = [
+    {
+      $set: {
+        ...currentDocument,
+        products: updatedProducts
+      }
+    }
+  ];
+  db.collection('cart').findOneAndUpdate(
+    { userId },
+    updatedDocument,
+    (err, r) => {
+      if (err) return res.status(500).json({ errors: { global: err } });
+      res.json(r);
+    }
+  );
 });
 
 export default router;
