@@ -4,12 +4,13 @@ export const mailToCompany = ({
   email,
   phone,
   city,
-  textContent
+  textContent,
+  subject
 }) => {
   return {
     to: email,
     from: 'eclosion@email.eclosion.com',
-    subject: `Demandes d'informations - ${firstName} ${lastName}`,
+    subject: `${subject} - ${firstName} ${lastName}`,
     html: `
       <h2>Information client</h2>
       <ul>
@@ -29,7 +30,7 @@ export const mailToCustomer = ({ firstName, lastName, email }) => {
   return {
     to: email,
     from: 'eclosion@email.eclosion.com',
-    subject: 'Confirmation reception du mail',
+    subject: 'Confirmation de la reception du mail',
     html: `
       <p>Bonjour ${firstName} ${lastName},</p>
       </br>

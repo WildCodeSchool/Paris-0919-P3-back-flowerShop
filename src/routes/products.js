@@ -55,7 +55,6 @@ router.post('/', (req, res) => {
         res.status(500).json({ errors: { global: err } });
         return;
       }
-
       res.json({ product: r.ops[0] });
     });
   } else {
