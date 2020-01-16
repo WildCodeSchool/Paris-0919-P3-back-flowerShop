@@ -88,7 +88,7 @@ router.put('/:_id', (req, res) => {
 });
 
 router.delete('/:_id', (req, res) => {
-  // const db = req.app.get('db');
+  const db = req.app.get('db');
 
   db.collection('products').deleteOne(
     { _id: new mongodb.ObjectId(req.params._id) },
