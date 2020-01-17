@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import isEmail from 'validator/lib/isEmail';
+import mongodb from 'mongodb';
 
 const router = express.Router();
 
@@ -43,13 +44,15 @@ router.post('/', (req, res) => {
           res.status(500).json({ errors: { global: err } });
           return;
         }
-        const cart = { userId: user._id, products: [] };
+        const cart = { userId: new mongodb.ObjectId(user._id), products: [] };
         db.collection('cart').insertOne(cart, error => {
           if (error) {
             res.status(500).json({ errors: { global: error } });
             return;
           }
-          res.json(cart);
+          res.json({
+            message: 'Votre compte a été crée avec succès!'
+          });
         });
       });
     }
