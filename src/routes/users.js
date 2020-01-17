@@ -43,8 +43,14 @@ router.post('/', (req, res) => {
           res.status(500).json({ errors: { global: err } });
           return;
         }
-
-        res.json({});
+        const cart = { userId: user._id, products: [] };
+        db.collection('cart').insertOne(cart, error => {
+          if (error) {
+            res.status(500).json({ errors: { global: error } });
+            return;
+          }
+          res.json(cart);
+        });
       });
     }
   });

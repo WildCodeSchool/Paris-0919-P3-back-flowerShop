@@ -3,20 +3,17 @@ import mongodb from 'mongodb';
 
 const router = express.Router();
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const userId = req.params.id;
   const db = req.app.get('db');
-  db.collection('cart')
-    .find({ userId })
-    .toArray((err, cart) => {
-      if (err) {
-        res.status(500).json({ errors: { global: err } });
-        return;
-      }
-      res.json({ cart });
-    });
+  const cart = await db
+    .collection('cart')
+    .findOne({ userId: mongodb.ObjectId(userId) });
+  if (!cart) return res.status(500).json({ errors: { global: err } });
+  res.json({ cart });
 });
 
+// update post to handle objectid
 router.post('/:id', async (req, res) => {
   const userId = req.params.id;
   const db = req.app.get('db');
@@ -40,7 +37,9 @@ router.post('/:id', async (req, res) => {
       }
     );
   } else {
-    const newDocument = { userId, products: [req.body] };
+    const newDocument = req.body
+      ? { userId, products: [req.body] }
+      : { userId, products: [] };
     db.collection('cart').insertOne(newDocument, (err, r) => {
       if (err) {
         res.status(500).json({ errors: { global: err } });

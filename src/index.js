@@ -35,17 +35,17 @@ app.use('/api/email', email);
 app.use('/api/cart', cart);
 
 mongodb.MongoClient.connect(
-  process.env.DB_CONNECTION,
+  process.env.LOCAL_DB,
   {
     useUnifiedTopology: true
   },
   (err, client) => {
-    const db = client.db('db');
+    // const db = client.db('db');
+    const db = client.db('flowershop');
     app.set('db', db);
     app.get('/*', (req, res) => {
       res.sendFile(path.join(__dirname, './index.html'));
     });
-
     app.listen(2370, () => console.log('Running on localhost:2370'));
   }
 );
