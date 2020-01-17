@@ -4,7 +4,12 @@ import sendgridTransport from 'nodemailer-sendgrid-transport';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { mailToCompany, mailToCustomer } from '../emailFormat';
+import {
+  mailToCompany,
+  mailToCustomer,
+  orderToCompany,
+  orderToCustomer
+} from '../emailFormat';
 
 const router = express.Router();
 
@@ -20,9 +25,17 @@ const transporter = nodemailer.createTransport(
   })
 );
 
-router.post('/', (req, res) => {
+router.post('/questions', (req, res) => {
   transporter.sendMail(mailToCompany(req.body.values));
   transporter.sendMail(mailToCustomer(req.body.values));
+  res.status(200).json({
+    message: 'Votre mail a été envoyé!'
+  });
+});
+
+router.post('/orders', (req, res) => {
+  transporter.sendMail(orderToCompany(req.body.values));
+  transporter.sendMail(orderToCustomer(req.body.values));
   res.status(200).json({
     message: 'Votre mail a été envoyé!'
   });
