@@ -6,7 +6,6 @@ import mongodb from 'mongodb';
 import products from './routes/products';
 import users from './routes/users';
 import auth from './routes/auth';
-import orders from './routes/orders';
 import email from './routes/email';
 import cart from './routes/cart';
 
@@ -22,17 +21,17 @@ app.use(bodyParser.json());
 app.use('/api/products', products);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
-app.use('/api/orders', orders);
 app.use('/api/email', email);
 app.use('/api/cart', cart);
 
 mongodb.MongoClient.connect(
-  process.env.DB_CONNECTION,
+  process.env.LOCAL_DB,
   {
     useUnifiedTopology: true
   },
   (err, client) => {
-    const db = client.db('db');
+    // const db = client.db('db');
+    const db = client.db('flowershop');
     app.set('db', db);
     app.get('/*', (req, res) => {
       res.sendFile(path.join(__dirname, './index.html'));
