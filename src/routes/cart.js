@@ -21,6 +21,12 @@ router.post('/:id', async (req, res) => {
   try {
     const userCart = await db.collection('cart').findOne({ userId });
     if (!userCart) throw new Error("Can't retrieve user cart");
+    console.log(req.body);
+    if (req.body.size === '') {
+      return res.json({
+        message: 'Merci de choisir une taille pour ce produit.'
+      });
+    }
     const updatedProducts = userCart.products
       ? [...userCart.products, req.body]
       : [req.body];
@@ -34,7 +40,10 @@ router.post('/:id', async (req, res) => {
       .collection('cart')
       .findOneAndUpdate({ userId }, updatedDocument, (err, r) => {
         if (err) throw new Error('Failed to update cart');
-        res.json(r);
+        res.json({
+          message: 'Merci de choisir une taille pour ce produit.',
+          r
+        });
       });
   } catch (err) {
     return res.status(500).json({ errors: { global: err.message } });
