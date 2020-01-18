@@ -49,17 +49,26 @@ export const orderToCompany = ({
   phone,
   address,
   city,
-  postalCode,
   products,
   textContent
 }) => {
   const productsToString = products
     .map(
       product =>
-        `<ul>
-        <li>${product.name}</li>
-        <li>${product.size}</li>
-      </ul>`
+        `<table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>${product.name}</td>
+            <td>${product.size}</td>
+          </tr>
+          </tbody>
+        </table>`
     )
     .join('');
   return {
@@ -74,7 +83,6 @@ export const orderToCompany = ({
         <li>Email: ${email}</li>
         <li>Téléphone: ${phone}</li>
         <li>Adresse: ${address}</li>
-        <li>Code postal: ${postalCode}</li>
         <li>Ville: ${city}</li>
       </ul>
       </br>
@@ -93,16 +101,25 @@ export const orderToCustomer = ({
   email,
   address,
   city,
-  postalCode,
   products
 }) => {
   const productsToString = products
     .map(
       product =>
-        `<ul>
-        <li>${product.name}</li>
-        <li>${product.size}</li>
-      </ul>`
+        `<table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>${product.name}</td>
+            <td>${product.size}</td>
+          </tr>
+          </tbody>
+        </table>`
     )
     .join('');
   return {
@@ -120,7 +137,6 @@ export const orderToCustomer = ({
         <li>${firstName} ${lastName}</li>
         <li>${address}</li>
         <li>${city}</li>
-        <li>${postalCode}</li>
       </ul>
       </br>
       <h3>Produits commandés</h3>
