@@ -21,9 +21,9 @@ router.post('/:id', async (req, res) => {
   try {
     const userCart = await db.collection('cart').findOne({ userId });
     if (!userCart) throw new Error("Can't retrieve user cart");
-    console.log(req.body);
     if (req.body.size === '') {
       return res.json({
+        type: 'negative',
         message: 'Merci de choisir une taille pour ce produit.'
       });
     }
@@ -41,8 +41,9 @@ router.post('/:id', async (req, res) => {
       .findOneAndUpdate({ userId }, updatedDocument, (err, r) => {
         if (err) throw new Error('Failed to update cart');
         res.json({
-          message: 'Merci de choisir une taille pour ce produit.',
-          r
+          type: 'positive',
+          message: 'Votre produit a été ajouté au panier avec succès.',
+          response: r
         });
       });
   } catch (err) {
@@ -72,7 +73,11 @@ router.put('/:id', async (req, res) => {
       updatedDocument,
       (err, r) => {
         if (err) throw new Error('Failed to update cart');
-        res.json(r);
+        res.json({
+          type: 'positive',
+          message: 'Votre commande a été modifiée avec succès.',
+          response: r
+        });
       }
     );
   } catch (err) {
@@ -102,7 +107,11 @@ router.delete('/:userId/:productId', async (req, res) => {
       updatedDocument,
       (err, r) => {
         if (err) throw new Error('Failed to delete product from cart');
-        res.json(r);
+        res.json({
+          type: 'positive',
+          message: 'Un produit a été enlevé de votre panier.',
+          response: r
+        });
       }
     );
   } catch (err) {
