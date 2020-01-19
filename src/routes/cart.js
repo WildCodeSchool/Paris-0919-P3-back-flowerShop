@@ -15,7 +15,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/:id', async (req, res) => {
+router.post('/:id/:', async (req, res) => {
   const userId = mongodb.ObjectId(req.params.id);
   const db = req.app.get('db');
   try {
@@ -23,8 +23,10 @@ router.post('/:id', async (req, res) => {
     if (!userCart) throw new Error("Can't retrieve user cart");
     if (req.body.size === '') {
       return res.json({
-        type: 'negative',
-        message: 'Merci de choisir une taille pour ce produit.'
+        message: {
+          isPositive: false,
+          text: 'Merci de choisir une taille pour ce produit.'
+        }
       });
     }
     const updatedProducts = userCart.products
@@ -41,8 +43,10 @@ router.post('/:id', async (req, res) => {
       .findOneAndUpdate({ userId }, updatedDocument, (err, r) => {
         if (err) throw new Error('Failed to update cart');
         res.json({
-          type: 'positive',
-          message: 'Votre produit a été ajouté au panier avec succès.',
+          message: {
+            isPositive: true,
+            text: 'Votre produit a été ajouté au panier avec succès.'
+          },
           response: r
         });
       });
@@ -74,8 +78,10 @@ router.put('/:id', async (req, res) => {
       (err, r) => {
         if (err) throw new Error('Failed to update cart');
         res.json({
-          type: 'positive',
-          message: 'Votre commande a été modifiée avec succès.',
+          message: {
+            isPositive: true,
+            text: 'Votre commande a été modifiée avec succès.'
+          },
           response: r
         });
       }
@@ -108,8 +114,10 @@ router.delete('/:userId/:productId', async (req, res) => {
       (err, r) => {
         if (err) throw new Error('Failed to delete product from cart');
         res.json({
-          type: 'positive',
-          message: 'Un produit a été enlevé de votre panier.',
+          message: {
+            isPositive: true,
+            text: 'Un produit a été enlevé de votre panier.'
+          },
           response: r
         });
       }
