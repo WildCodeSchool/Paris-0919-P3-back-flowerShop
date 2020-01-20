@@ -55,20 +55,10 @@ export const orderToCompany = ({
   const productsToString = products
     .map(
       product =>
-        `<table>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Taille</th>
-            </tr>
-          </thead>
-          <tbody>
-          <tr>
+        ` <tr>
             <td>${product.name}</td>
             <td>${product.size}</td>
-          </tr>
-          </tbody>
-        </table>`
+          </tr>`
     )
     .join('');
   return {
@@ -87,7 +77,17 @@ export const orderToCompany = ({
       </ul>
       </br>
       <h2>Contenu de la commande</h2>
-      ${productsToString}
+      <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${productsToString}
+          </tbody>
+      </table>
       </br>
       <h2>Renseignements supplémentaires</h2>
       <p>${textContent}</p>
@@ -106,20 +106,10 @@ export const orderToCustomer = ({
   const productsToString = products
     .map(
       product =>
-        `<table>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Taille</th>
-            </tr>
-          </thead>
-          <tbody>
-          <tr>
+        ` <tr>
             <td>${product.name}</td>
             <td>${product.size}</td>
-          </tr>
-          </tbody>
-        </table>`
+          </tr>`
     )
     .join('');
   return {
@@ -140,7 +130,17 @@ export const orderToCustomer = ({
       </ul>
       </br>
       <h3>Produits commandés</h3>
-      ${productsToString}
+      <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${productsToString}
+          </tbody>
+      </table>
       </br>
       <p>Cordialement,</p>
       <p>Eclosion</p>
