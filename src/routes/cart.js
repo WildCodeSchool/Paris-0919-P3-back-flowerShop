@@ -15,13 +15,15 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/:id/:', async (req, res) => {
-  const userId = mongodb.ObjectId(req.params.id);
+router.post('/:userId/:productId', async (req, res) => {
+  const userId = mongodb.ObjectId(req.params.userId);
+  const productId = req.params.productId;
   const db = req.app.get('db');
+  const { size } = req.body;
   try {
     const userCart = await db.collection('cart').findOne({ userId });
     if (!userCart) throw new Error("Can't retrieve user cart");
-    if (req.body.size === '') {
+    if (size === '') {
       return res.json({
         message: {
           isPositive: false,
@@ -29,9 +31,23 @@ router.post('/:id/:', async (req, res) => {
         }
       });
     }
+    const addedProduct = await db
+      .collection('products')
+      .findOne({ _id: productId });
+    if (
+      userCart.products.filter(product => product._id === productId).length > 0
+    ) {
+      return res.json({
+        message: {
+          isPositive: false,
+          text: 'Ce produit a déjà été ajouté à votre panier.'
+        }
+      });
+    }
+    console.log(addedProduct);
     const updatedProducts = userCart.products
-      ? [...userCart.products, req.body]
-      : [req.body];
+      ? [...userCart.products, { ...addedProduct, size }]
+      : [{ ...addedProduct, size }];
     const updatedDocument = {
       $set: {
         ...userCart,
