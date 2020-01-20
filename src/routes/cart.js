@@ -33,9 +33,11 @@ router.post('/:userId/:productId', async (req, res) => {
     }
     const addedProduct = await db
       .collection('products')
-      .findOne({ _id: productId });
+      .findOne({ _id: mongodb.ObjectId(productId) });
     if (
-      userCart.products.filter(product => product._id === productId).length > 0
+      userCart.products.filter(
+        product => mongodb.ObjectId(product._id).toString() === productId
+      ).length > 0
     ) {
       return res.json({
         message: {
@@ -44,7 +46,6 @@ router.post('/:userId/:productId', async (req, res) => {
         }
       });
     }
-    console.log(addedProduct);
     const updatedProducts = userCart.products
       ? [...userCart.products, { ...addedProduct, size }]
       : [{ ...addedProduct, size }];
@@ -113,9 +114,9 @@ router.delete('/:userId/:productId', async (req, res) => {
   const productId = req.params.productId;
   try {
     const currentCart = await db.collection('cart').findOne({ userId });
-    const updatedProducts = currentCart.products.filter(
-      product => product._id !== productId
-    );
+    const updatedProducts = currentCart.products.filter(product => {
+      return mongodb.ObjectId(product._id).toString() !== productId;
+    });
     const updatedDocument = [
       {
         $set: {

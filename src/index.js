@@ -39,6 +39,7 @@ mongodb.MongoClient.connect(
   },
   (err, client) => {
     const db = client.db('db');
+    // const db = client.db('flowershop');
     app.set('db', db);
     app.get('/*', (req, res) => {
       res.sendFile(path.join(__dirname, './index.html'));
