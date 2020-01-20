@@ -51,6 +51,7 @@ router.post('/', (req, res) => {
             return;
           }
           res.json({
+            type: 'positive',
             message: 'Votre compte a été crée avec succès!'
           });
         });

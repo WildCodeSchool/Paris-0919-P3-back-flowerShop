@@ -29,7 +29,7 @@ router.post('/questions', (req, res) => {
   transporter.sendMail(mailToCompany(req.body.values));
   transporter.sendMail(mailToCustomer(req.body.values));
   res.status(200).json({
-    message: 'Votre mail a été envoyé!'
+    message: { isPositive: true, text: 'Votre mail a été envoyé avec succès.' }
   });
 });
 
@@ -37,7 +37,7 @@ router.post('/orders', (req, res) => {
   transporter.sendMail(orderToCompany(req.body.values));
   transporter.sendMail(orderToCustomer(req.body.values));
   res.status(200).json({
-    message: 'Votre mail a été envoyé!'
+    message: { isPositive: true, text: 'Votre mail a été envoyé avec succès.' }
   });
 });
 
