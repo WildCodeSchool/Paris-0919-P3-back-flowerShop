@@ -34,7 +34,7 @@ export const mailToCustomer = ({ firstName, lastName, email }) => {
     html: `
       <p>Bonjour ${firstName} ${lastName},</p>
       </br>
-      <p>Noux avons bien reçu votre mail et nous reviendrons vers vous le plus rapidement possible.</p>
+      <p>Nous avons bien reçu votre mail et nous reviendrons vers vous le plus rapidement possible.</p>
       </br>
       <p>Cordialement,</p>
       <p>Eclosion</p>
@@ -141,6 +141,7 @@ export const orderToCustomer = ({
             ${productsToString}
           </tbody>
       </table>
+      <a href='paypal.me/eclosionfleurs' target='_blank'>Lien vers notre paypal.</a>
       </br>
       <p>Cordialement,</p>
       <p>Eclosion</p>
