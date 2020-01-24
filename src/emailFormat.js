@@ -34,7 +34,7 @@ export const mailToCustomer = ({ firstName, lastName, email }) => {
     html: `
       <p>Bonjour ${firstName} ${lastName},</p>
       </br>
-      <p>Noux avons bien reçu votre mail et nous reviendrons vers vous le plus rapidement possible.</p>
+      <p>Nous avons bien reçu votre mail et nous reviendrons vers vous le plus rapidement possible.</p>
       </br>
       <p>Cordialement,</p>
       <p>Eclosion</p>
@@ -49,17 +49,16 @@ export const orderToCompany = ({
   phone,
   address,
   city,
-  postalCode,
   products,
   textContent
 }) => {
   const productsToString = products
     .map(
       product =>
-        `<ul>
-        <li>${product.name}</li>
-        <li>${product.size}</li>
-      </ul>`
+        ` <tr>
+            <td>${product.name}</td>
+            <td>${product.size}</td>
+          </tr>`
     )
     .join('');
   return {
@@ -74,12 +73,21 @@ export const orderToCompany = ({
         <li>Email: ${email}</li>
         <li>Téléphone: ${phone}</li>
         <li>Adresse: ${address}</li>
-        <li>Code postal: ${postalCode}</li>
         <li>Ville: ${city}</li>
       </ul>
       </br>
       <h2>Contenu de la commande</h2>
-      ${productsToString}
+      <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${productsToString}
+          </tbody>
+      </table>
       </br>
       <h2>Renseignements supplémentaires</h2>
       <p>${textContent}</p>
@@ -93,16 +101,15 @@ export const orderToCustomer = ({
   email,
   address,
   city,
-  postalCode,
   products
 }) => {
   const productsToString = products
     .map(
       product =>
-        `<ul>
-        <li>${product.name}</li>
-        <li>${product.size}</li>
-      </ul>`
+        ` <tr>
+            <td>${product.name}</td>
+            <td>${product.size}</td>
+          </tr>`
     )
     .join('');
   return {
@@ -120,11 +127,21 @@ export const orderToCustomer = ({
         <li>${firstName} ${lastName}</li>
         <li>${address}</li>
         <li>${city}</li>
-        <li>${postalCode}</li>
       </ul>
       </br>
       <h3>Produits commandés</h3>
-      ${productsToString}
+      <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${productsToString}
+          </tbody>
+      </table>
+      <a href='paypal.me/eclosionfleurs' target='_blank'>Lien vers notre paypal.</a>
       </br>
       <p>Cordialement,</p>
       <p>Eclosion</p>

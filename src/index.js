@@ -25,13 +25,13 @@ app.use('/api/email', email);
 app.use('/api/cart', cart);
 
 mongodb.MongoClient.connect(
-  process.env.LOCAL_DB,
+  process.env.DB_CONNECTION,
   {
     useUnifiedTopology: true
   },
   (err, client) => {
-    // const db = client.db('db');
-    const db = client.db('flowershop');
+    const db = client.db('db');
+    // const db = client.db('flowershop');
     app.set('db', db);
     app.get('/*', (req, res) => {
       res.sendFile(path.join(__dirname, './index.html'));
