@@ -9,7 +9,7 @@ export const mailToCompany = ({
 }) => {
   return {
     to: email,
-    from: 'eclosion@email.eclosion.com',
+    from: 'eclosionflowers@gmail.com',
     subject: `${subject} - ${firstName} ${lastName}`,
     html: `
       <h2>Information client</h2>
@@ -23,13 +23,13 @@ export const mailToCompany = ({
       <h2>Contenu du mail</h2>
       <p>${textContent}</p>
       `
-  };
-};
+  }
+}
 
 export const mailToCustomer = ({ firstName, lastName, email }) => {
   return {
     to: email,
-    from: 'eclosion@email.eclosion.com',
+    from: 'eclosionflowers@gmail.com',
     subject: 'Confirmation de la reception du mail',
     html: `
       <p>Bonjour ${firstName} ${lastName},</p>
@@ -39,8 +39,8 @@ export const mailToCustomer = ({ firstName, lastName, email }) => {
       <p>Cordialement,</p>
       <p>Eclosion</p>
     `
-  };
-};
+  }
+}
 
 export const orderToCompany = ({
   firstName,
@@ -60,10 +60,10 @@ export const orderToCompany = ({
             <td>${product.size}</td>
           </tr>`
     )
-    .join('');
+    .join('')
   return {
     to: email,
-    from: 'eclosion@email.eclosion.com',
+    from: 'eclosionflowers@gmail.com',
     subject: `Nouvelle Commande - ${firstName} ${lastName}`,
     html: `
       <h2>Information client</h2>
@@ -92,8 +92,8 @@ export const orderToCompany = ({
       <h2>Renseignements supplémentaires</h2>
       <p>${textContent}</p>
       `
-  };
-};
+  }
+}
 
 export const orderToCustomer = ({
   firstName,
@@ -111,10 +111,10 @@ export const orderToCustomer = ({
             <td>${product.size}</td>
           </tr>`
     )
-    .join('');
+    .join('')
   return {
     to: email,
-    from: 'eclosion@email.eclosion.com',
+    from: 'eclosionflowers@gmail.com',
     subject: 'Confirmation de la reception du mail',
     html: `
       <p>Bonjour ${firstName} ${lastName},</p>
@@ -146,5 +146,5 @@ export const orderToCustomer = ({
       <p>Cordialement,</p>
       <p>Eclosion</p>
     `
-  };
-};
+  }
+}
